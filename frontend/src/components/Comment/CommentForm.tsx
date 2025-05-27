@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Send } from 'lucide-react';
-import { IconButton } from '../UI/IconButton';
+import IconButton from '../UI/IconButton';
 
 interface CommentFormData {
   content: string;

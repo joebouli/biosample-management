@@ -1,6 +1,6 @@
 import {Pencil, Trash2} from 'lucide-react'
 import type {BioSample} from '../../types';
-import {IconButton} from "../UI/IconButton.tsx";
+import IconButton from "../UI/IconButton.tsx";
 
 type Props = {
     sample: BioSample;

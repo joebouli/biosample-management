@@ -7,7 +7,7 @@ from backend.services import sampletype_service
 
 router = APIRouter(prefix="/sample-types", tags=["SampleTypeRead"])
 
-@router.get("/", response_model=List[SampleTypeRead])
+@router.get("/", response_model=List[str])
 def sampletypes(session: Session = Depends(get_session)):
     """
     Retrieve all sample types from the database.

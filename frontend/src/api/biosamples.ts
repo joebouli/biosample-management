@@ -23,7 +23,7 @@ export const fetchBioSamples = async (
  */
 export const fetchOperators = async (): Promise<string[]> => {
   const res = await apiClient.get('/operators');
-  return res.data.map((op: any) => op.name);
+  return res.data;
 };
 
 /**
@@ -32,7 +32,7 @@ export const fetchOperators = async (): Promise<string[]> => {
  */
 export const fetchSampleTypes = async (): Promise<string[]> => {
   const res = await apiClient.get('/sample-types');
-  return res.data.map((type: any) => type.name);
+  return res.data;
 };
 
 /**

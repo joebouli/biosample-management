@@ -27,7 +27,7 @@ export const fetchComments = async (
  */
 export const createComment = async (
   bioSampleId: number,
-  data: CommentCreate  // bioSampleId is provided in URL, not in data
+  data: CommentCreate
 ): Promise<Comment> => {
   const res = await apiClient.post(`/comments/${bioSampleId}`, data);
   return res.data;

@@ -5,7 +5,7 @@ interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> 
     title?: string;          // Tooltip text shown on hover (optional)
 }
 
-export function IconButton({children, title, className = '', ...props}: IconButtonProps) {
+export default function IconButton({children, title, className = '', ...props}: IconButtonProps) {
     return (
         <button
             {...props}

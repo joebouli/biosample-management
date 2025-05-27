@@ -6,9 +6,9 @@ def get_operator_by_name(session: Session, name: str) -> Operator | None:
     stmt = select(Operator).where(Operator.name == name.lower())
     return session.exec(stmt).first()
 
-def get_operators(session: Session) -> list[Operator]:
+def get_operators(session: Session) -> list[str]:
     """Return all Operators in the database."""
-    stmt = select(Operator)
+    stmt = select(Operator.name)
     return session.exec(stmt).all()
 
 def create_operator_by_name(session: Session, name: str) -> Operator:

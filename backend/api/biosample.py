@@ -43,8 +43,8 @@ def list_biosamples(
     Returns:
         dict: Contains the list of biosamples under "results" and total count under "totalCount".
     """
-    total_count = session.exec(select(func.count()).select_from(BioSample)).one()
     results = biosample_service.list_biosamples(session, limit=limit, offset=offset)
+    total_count = biosample_service.count_biosamples(session)
     return {"results": results, "totalCount": total_count}
 
 @router.get("/{biosample_id}", response_model=BioSampleRead)

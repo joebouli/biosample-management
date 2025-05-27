@@ -2,9 +2,9 @@ from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from starlette.middleware.cors import CORSMiddleware
 
-from backend.api import biosample, comment, operator, sampletype
-from backend.database import init_db
-from backend.services.exceptions import EntityNotFoundError  # la tua eccezione personalizzata
+from .api import biosample, comment, operator, sampletype
+from .database import init_db
+from .services.exceptions import EntityNotFoundError  # la tua eccezione personalizzata
 
 app = FastAPI()
 

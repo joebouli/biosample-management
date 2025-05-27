@@ -5,7 +5,7 @@ import {useApi} from '../hooks/useApi';
 import {useModal} from '../hooks/useModal';
 import {fetchBioSampleById, updateBioSample, deleteBioSample} from '../api/biosamples';
 import type {BioSample, BioSampleCreate} from '../types';
-import {IconButton} from '../components/UI/IconButton';
+import IconButton from '../components/UI/IconButton';
 import BioSampleModal from '../components/BioSample/BioSampleModal';
 import BioSampleDetail from '../components/BioSample/BioSampleDetail';
 import CommentsSection from '../components/Comment/CommentsSection';
@@ -34,13 +34,19 @@ export default function BioSampleDetailPage() {
         onSuccess: (updatedSample) => {
             sampleApi.setData(updatedSample);
             closeEditModal();
+        },
+        onError: (errorMessage) => {
+            console.error('Failed to upload sample:', errorMessage);
         }
     });
 
     // API hook to handle deleting a BioSample
     // On success, navigate back to the list of biosamples
     const deleteApi = useApi<void>({
-        onSuccess: () => navigate('/biosamples')
+        onSuccess: () => navigate('/biosamples'),
+        onError: (errorMessage) => {
+            console.error('Failed to delete sample:', errorMessage);
+        }
     });
 
     // Effect runs on component mount or when sampleId changes

@@ -11,7 +11,7 @@ from backend.services import operator_service
 
 router = APIRouter(prefix="/operators", tags=["OperatorRead"])
 
-@router.get("/", response_model=List[OperatorRead])
+@router.get("/", response_model=List[str])
 def list_operators(session: Session = Depends(get_session)):
     """
     Retrieve a list of all operators.

@@ -6,9 +6,9 @@ def get_sample_type_by_name(session: Session, name: str) -> SampleType | None:
     stmt = select(SampleType).where(SampleType.name == name.lower())
     return session.exec(stmt).first()
 
-def get_sample_types(session: Session) -> list[SampleType]:
+def get_sample_types(session: Session) -> list[str]:
     """Return all SampleTypes in the database."""
-    stmt = select(SampleType)
+    stmt = select(SampleType.name)
     return session.exec(stmt).all()
 
 def create_sample_type_by_name(session: Session, name: str) -> SampleType:

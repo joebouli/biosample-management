@@ -1,4 +1,6 @@
 from typing import List, Optional
+
+from sqlalchemy import func
 from sqlmodel import Session, select
 from datetime import datetime, timedelta
 from random import choice, randint
@@ -17,6 +19,11 @@ def create_biosample(session: Session, data: BioSampleCreate) -> BioSampleRead:
     session.commit()
     session.refresh(biosample)
     return to_biosample_read(biosample)
+
+def count_biosamples(session: Session) -> int:
+    """Count the total number of BioSample records in the database."""
+    return session.exec(select(func.count()).select_from(BioSample)).one()
+
 
 def generate_random_biosample_data():
     """Generate random data for testing/demo purposes."""
