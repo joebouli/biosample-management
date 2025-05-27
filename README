@@ -32,9 +32,13 @@ A full-stack application to manage biological samples (BioSamples) with a FastAP
    ```bash
    pip install -r requirements.txt
    ```
-4. Run the FastAPI server (this will automatically create the SQLite database if it doesn't exist):
+4. Go back to the root project folder (exit the backend folder):
    ```bash
-   uvicorn main:app --reload
+   cd ..
+   ```
+5. Run the FastAPI server from the root directory (this will automatically create the SQLite database if it doesn't exist):
+   ```bash
+   uvicorn backend.main:app --reload
    ```
    The backend will be available at [http://localhost:8000](http://localhost:8000).
 
@@ -52,7 +56,7 @@ A full-stack application to manage biological samples (BioSamples) with a FastAP
    ```
 3. Start the React frontend:
    ```bash
-   npm start
+   npm run dev
    ```
    The frontend will be available at [http://localhost:5173](http://localhost:5173).
 
@@ -92,7 +96,6 @@ The project currently uses the following environment variables:
 - Full CRUD operations for BioSamples
 - Comments section for each BioSample
 - Pagination for lists
-- React UI with routing for list and detail pages
 
 ---
 
@@ -104,8 +107,8 @@ Approximately 3 hours were spent to complete this project.
 
 ### Technologies Used
 
-- Backend: FastAPI, SQLModel, SQLite
-- Frontend: React, TypeScript, React Router
+- Backend: FastAPI, SQLModel
+- Frontend: React, TypeScript
 
 ---
 
