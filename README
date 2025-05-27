@@ -1,0 +1,111 @@
+
+# BioSample Management Mini-App
+
+## Overview
+
+A full-stack application to manage biological samples (BioSamples) with a FastAPI backend (Python) and a React + TypeScript frontend.
+
+---
+
+## Setup Instructions for Running Locally
+
+### Prerequisites
+
+- Python 3.10+
+- Node.js 18+
+- (Recommended) IDE such as PyCharm or VSCode
+
+---
+
+### Backend setup
+
+1. Navigate to the backend folder:
+   ```bash
+   cd backend
+   ```
+2. (Optional but recommended) Create and activate a virtual environment:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate    # On Windows use: venv\Scripts\activate
+   ```
+3. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+4. Run the FastAPI server (this will automatically create the SQLite database if it doesn't exist):
+   ```bash
+   uvicorn main:app --reload
+   ```
+   The backend will be available at [http://localhost:8000](http://localhost:8000).
+
+---
+
+### Frontend setup
+
+1. Navigate to the frontend folder:
+   ```bash
+   cd frontend
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the React frontend:
+   ```bash
+   npm start
+   ```
+   The frontend will be available at [http://localhost:5173](http://localhost:5173).
+
+---
+
+### Usage Notes
+
+- Initially, since the database is empty, no BioSamples will appear in the UI.
+- Users can create BioSamples directly from the interface.
+- To quickly populate the database with sample data, open your browser and visit:
+  ```
+  http://localhost:8000/biosamples/generate/{n}
+  ```
+  where `{n}` is the number of BioSamples you want to generate (e.g., 100 http://localhost:8000/biosamples/generate/100).
+- This endpoint generates random BioSamples, including operators and sample types, which can then be reused in the UI.
+- During BioSample creation, users can add new operators and sample types as needed.
+
+---
+
+### Environment Variables
+
+The project currently uses the following environment variables:
+
+- `DATABASE_URL` (optional): Database URL for SQLite (default: `sqlite:///./biosample.db`)
+- `FRONTEND_URL` (optional): Frontend URL for CORS configuration (default: `http://localhost:5173`)
+
+---
+
+### Frontend Routing
+
+- The React app's main page is at `http://localhost:5173/biosamples`, where you can see the list of BioSamples.
+
+---
+
+### Features
+
+- Full CRUD operations for BioSamples
+- Comments section for each BioSample
+- Pagination for lists
+- React UI with routing for list and detail pages
+
+---
+
+### Time Spent
+
+Approximately 3 hours were spent to complete this project.
+
+---
+
+### Technologies Used
+
+- Backend: FastAPI, SQLModel, SQLite
+- Frontend: React, TypeScript, React Router
+
+---
+
