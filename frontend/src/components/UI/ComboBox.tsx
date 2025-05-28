@@ -27,7 +27,7 @@ export default function ComboBox({
 
     return (
         <div className="relative w-full">
-            {/* Headless UI Combobox manages ARIA and keyboard interactions */}
+            {/* Headless UI Combobox manages keyboard interactions */}
             <Combobox value={value} onChange={onChange} disabled={disabled}>
                 {({open}) => (
                     <div className="relative">
