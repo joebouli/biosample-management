@@ -5,7 +5,8 @@ import {fetchComments, createComment} from '../../api/comments';
 import CommentForm from './CommentForm';
 import CommentList from './CommentList';
 import Pagination from '../UI/Pagination';
-import type {Comment, CommentCreate} from '../../types';
+import type {Comment, CommentCreate, PaginatedResponse} from '../../types';
+
 
 interface CommentFormData {
     content: string;
@@ -22,25 +23,30 @@ export default function CommentsSection({bioSampleId, commentsPerPage = 3}: Comm
     const pagination = usePagination({itemsPerPage: commentsPerPage});
 
     // API hook to manage fetching comments (data, loading, error)
-    const commentsApi = useApi<{ results: Comment[]; totalCount: number }>();
+    const commentsApi = useApi<PaginatedResponse<Comment>>({
+        onSuccess: (data) => {
+            pagination.setTotalCount(data.totalCount);
+        },
+        onError: (errorMessage) => {
+            console.error('Failed to load comments:', errorMessage);
+        }
+    });
 
     // API hook to manage creating new comments
-    const createApi = useApi<Comment>();
+    const createApi = useApi<Comment>({
+        onSuccess: () => {
+            pagination.goToFirstPage();
+            loadComments();
+        },
+        onError: (errorMessage) => {
+            console.error('Failed to add comments:', errorMessage);
+        }
+    });
 
     // Load comments for current bioSampleId and current pagination state
-    const loadComments = async () => {
-        try {
-            // Execute fetchComments API call with pagination params (offset & limit)
-            const data = await commentsApi.execute(() =>
-                fetchComments(bioSampleId, pagination.offset, pagination.itemsPerPage)
-            );
-
-            // Update pagination totalCount based on fetched data
-            pagination.setTotalCount(data.totalCount);
-        } catch (err) {
-            // Log errors loading comments for debugging
-            console.error('Failed to load comments:', err);
-        }
+    const loadComments = async (): Promise<void> => {
+        await commentsApi.execute(() =>
+            fetchComments(bioSampleId, pagination.offset, pagination.itemsPerPage));
     };
 
     // useEffect triggers loading comments on:
@@ -51,20 +57,9 @@ export default function CommentsSection({bioSampleId, commentsPerPage = 3}: Comm
     }, [bioSampleId, pagination.currentPage, pagination.itemsPerPage]);
 
     // Function to handle adding a new comment
-    const addComment = async (data: CommentFormData) => {
-        try {
-            // Call API to create new comment (casting data to CommentCreate type)
-            await createApi.execute(() => createComment(bioSampleId, data as CommentCreate));
-
-            // After adding comment, reset to first page (to show new comment)
-            pagination.goToFirstPage();
-
-            // Reload comments to reflect the newly added comment
-            await loadComments();
-        } catch (err) {
-            // Log error if comment creation fails
-            console.error('Failed to add comment:', err);
-        }
+    const addComment = async (data: CommentFormData): Promise<void> => {
+        // Call API to create new comment (casting data to CommentCreate type)
+        await createApi.execute(() => createComment(bioSampleId, data as CommentCreate));
     };
 
     // If there was an error loading comments, display error message instead of comments section
