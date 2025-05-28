@@ -54,8 +54,14 @@ export default function BioSampleForm({
 
     // Load operators and sample types from API when component mounts
     useEffect(() => {
-        operatorsApi.execute(fetchOperators);
-        sampleTypesApi.execute(fetchSampleTypes);
+        async function loadData() {
+            try {
+                await operatorsApi.execute(fetchOperators);
+                await sampleTypesApi.execute(fetchSampleTypes);
+            } catch (error) {
+            }
+        }
+        loadData();
     }, []);
 
     // Handle changes for text inputs (location, samplingDate)
