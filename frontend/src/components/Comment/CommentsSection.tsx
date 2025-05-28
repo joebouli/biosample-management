@@ -34,12 +34,8 @@ export default function CommentsSection({bioSampleId, commentsPerPage = 3}: Comm
 
     // API hook to manage creating new comments
     const createApi = useApi<Comment>({
-        onSuccess: () => {
-            pagination.goToFirstPage();
-            loadComments();
-        },
         onError: (errorMessage) => {
-            console.error('Failed to add comments:', errorMessage);
+            console.error('Failed to add comment:', errorMessage);
         }
     });
 
@@ -57,9 +53,20 @@ export default function CommentsSection({bioSampleId, commentsPerPage = 3}: Comm
     }, [bioSampleId, pagination.currentPage, pagination.itemsPerPage]);
 
     // Function to handle adding a new comment
-    const addComment = async (data: CommentFormData): Promise<void> => {
-        // Call API to create new comment (casting data to CommentCreate type)
-        await createApi.execute(() => createComment(bioSampleId, data as CommentCreate));
+    const addComment = async (data: CommentFormData) => {
+        try {
+            // Call API to create new comment (casting data to CommentCreate type)
+            await createApi.execute(() => createComment(bioSampleId, data as CommentCreate));
+
+            // After adding comment, reset to first page (to show new comment)
+            pagination.goToFirstPage();
+
+            // Reload comments to reflect the newly added comment
+            await loadComments();
+        } catch (err) {
+            // Log error if comment creation fails
+            console.error('Failed to add comment:', err);
+        }
     };
 
     // If there was an error loading comments, display error message instead of comments section
