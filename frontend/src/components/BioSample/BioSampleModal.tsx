@@ -23,13 +23,19 @@ export default function BioSampleModal({
             onClose();  // Close modal on successful submit
             reset();    // Reset API hook state (e.g., clear error)
         },
+        onError: (error) => {
+            console.error('Error:', error);
+        },
     });
 
     if (!isOpen) return null;
 
-    // Wrap form submission to execute API call and handle loading/error state
-    const handleSubmit = (data: BioSampleCreate) => {
-        return execute(() => onSubmit(data));
+    // Wrap form submission to execute API call
+    const handleSubmit = async (data: BioSampleCreate) => {
+        try {
+            await execute(() => onSubmit(data));
+        } catch (e) {
+        }
     };
 
     // Handle modal close action; prevent closing while submitting
