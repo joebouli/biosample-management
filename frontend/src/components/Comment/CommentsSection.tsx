@@ -41,8 +41,12 @@ export default function CommentsSection({bioSampleId, commentsPerPage = 3}: Comm
 
     // Load comments for current bioSampleId and current pagination state
     const loadComments = async (): Promise<void> => {
-        await commentsApi.execute(() =>
-            fetchComments(bioSampleId, pagination.offset, pagination.itemsPerPage));
+        try {
+            await commentsApi.execute(() =>
+                fetchComments(bioSampleId, pagination.offset, pagination.itemsPerPage)
+            );
+        } catch (err) {
+        }
     };
 
     // useEffect triggers loading comments on:
@@ -54,14 +58,15 @@ export default function CommentsSection({bioSampleId, commentsPerPage = 3}: Comm
 
     // Function to handle adding a new comment
     const addComment = async (data: CommentFormData) => {
+        try {
             // Call API to create new comment (casting data to CommentCreate type)
             await createApi.execute(() => createComment(bioSampleId, data as CommentCreate));
-
             // After adding comment, reset to first page (to show new comment)
             pagination.goToFirstPage();
-
             // Reload comments to reflect the newly added comment
             await loadComments();
+        } catch (err) {
+        }
     };
 
     // If there was an error loading comments, display error message instead of comments section
