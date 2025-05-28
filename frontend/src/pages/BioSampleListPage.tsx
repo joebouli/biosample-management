@@ -49,6 +49,9 @@ export default function BioSampleListPage() {
     const loadSamples = useCallback(() => {
         samplesApi.execute(() => fetchBioSamples(pagination.itemsPerPage, pagination.offset))
             .then(data => pagination.setTotalCount(data.totalCount))
+            .catch(error => {
+                console.warn('Error handled in catch:', error);
+            });
     }, [samplesApi, pagination.itemsPerPage, pagination.offset, pagination.setTotalCount]);
 
     // Reload samples whenever the current page changes
@@ -63,7 +66,10 @@ export default function BioSampleListPage() {
 
     // Handle creating a new sample by calling create API hook with form data
     const handleCreateSample = async (data: BioSampleCreate): Promise<void> => {
-        await createApi.execute(() => createBioSample(data));
+        try {
+            await createApi.execute(() => createBioSample(data));
+        } catch (error) {
+        }
     };
 
     // Show loading screen if samples are loading and no data yet
