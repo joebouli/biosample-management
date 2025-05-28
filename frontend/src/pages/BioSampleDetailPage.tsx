@@ -65,7 +65,10 @@ export default function BioSampleDetailPage() {
     const handleEdit = async (updatedData: BioSampleCreate) => {
         const currentData = sampleApi.data;
         if (!currentData) return;
-        await updateApi.execute(() => updateBioSample(currentData.id, updatedData));
+        try {
+            await updateApi.execute(() => updateBioSample(currentData.id, updatedData));
+        } catch {
+        }
     };
 
     // Handler to open the confirm delete modal
@@ -78,7 +81,10 @@ export default function BioSampleDetailPage() {
     // Confirm deletion handler - executes delete API call
     const confirmDelete = async () => {
         if (!sampleApi.data) return;
-        await deleteApi.execute(() => deleteBioSample(sampleApi.data!.id));
+        try {
+            deleteApi.execute(() => deleteBioSample(sampleApi.data!.id));
+        } catch {
+        }
     };
 
     // Show loading UI while fetching data
