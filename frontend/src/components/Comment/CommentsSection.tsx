@@ -54,7 +54,6 @@ export default function CommentsSection({bioSampleId, commentsPerPage = 3}: Comm
 
     // Function to handle adding a new comment
     const addComment = async (data: CommentFormData) => {
-        try {
             // Call API to create new comment (casting data to CommentCreate type)
             await createApi.execute(() => createComment(bioSampleId, data as CommentCreate));
 
@@ -63,10 +62,6 @@ export default function CommentsSection({bioSampleId, commentsPerPage = 3}: Comm
 
             // Reload comments to reflect the newly added comment
             await loadComments();
-        } catch (err) {
-            // Log error if comment creation fails
-            console.error('Failed to add comment:', err);
-        }
     };
 
     // If there was an error loading comments, display error message instead of comments section
